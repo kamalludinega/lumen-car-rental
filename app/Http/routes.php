@@ -14,3 +14,17 @@
 $app->get('/', function () use ($app) {
     return $app->version();
 });
+
+/**
+ * api v1 routes group
+ */
+$app->group(['prefix'=>'api/v1','namespace'=>'App\Http\Controllers'],function() use($app){
+    /**
+     * CRUD client routes
+     */
+    $app->get('client','ClientController@index');
+    $app->get('client/{id}','ClientController@get');
+    $app->post('client','ClientController@create');
+    $app->put('client/{id}','ClientController@update');
+    $app->delete('client/{id}','ClientController@delete');
+});
