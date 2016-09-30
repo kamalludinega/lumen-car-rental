@@ -89,7 +89,7 @@ class CarController extends Controller
         $this->validate($request, [
             'brand' => 'required',
             'type' => 'required',
-            'year' => 'required|date_format:Y|numeric|max:'.date('Y'),
+            'year' => 'required|digits:4|numeric|max:'.date('Y'),
             'color' => 'required',
             'plate' => 'required|unique:car,plate'.$id,
         ]);
