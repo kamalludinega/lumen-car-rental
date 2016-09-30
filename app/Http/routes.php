@@ -27,4 +27,13 @@ $app->group(['prefix'=>'api/v1','namespace'=>'App\Http\Controllers'],function() 
     $app->post('client','ClientController@create');
     $app->put('client/{id}','ClientController@update');
     $app->delete('client/{id}','ClientController@delete');
+
+    /**
+     * CRUD car
+     */
+    $app->get('car','CarController@index');
+    $app->get('car/{id}','CarController@get');
+    $app->post('car','CarController@create');
+    $app->put('car/{id}','CarController@update');
+    $app->delete('car/{id}','CarController@delete');
 });
