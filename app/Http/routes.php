@@ -45,4 +45,6 @@ $app->group(['prefix'=>'api/v1','namespace'=>'App\Http\Controllers'],function() 
     $app->post('rental','RentalController@create');
     $app->put('rental/{id}','RentalController@update');
     $app->delete('rental/{id}','RentalController@delete');
+
+    $app->get('histories/client/{id}','ClientController@histories');
 });

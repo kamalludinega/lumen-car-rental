@@ -21,4 +21,7 @@ class Client extends Model
     //field
     protected $fillable = ['name','gender'];
 
+    public function histories(){
+        return $this->hasMany('App\Rental','client-id');
+    }
 }
