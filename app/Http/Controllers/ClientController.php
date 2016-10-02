@@ -80,4 +80,17 @@ class ClientController extends Controller
             'gender' => 'required|in:male,female',
         ]);
     }
+
+    /**
+     * client rental histories
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function histories($id){
+        $histories=Client::with(['histories' => function($query){
+            $query->join('car','car.id','=','rental.car-id')
+                ->select('client-id','brand','type','plate','date-from','date-to');
+        }])->find($id);
+        return response()->json($histories);
+    }
 }
