@@ -34,7 +34,7 @@ class ClientController extends Controller
         $client = Client::create(
             ['name'=>$request->get('name'),'gender'=>$request->get('gender'),]
         );
-        return response()->json($client);
+        return response()->json(['id'=>$client->id]);
     }
 
     /**
@@ -52,7 +52,7 @@ class ClientController extends Controller
         $client->name = $request->input('name');
         $client->gender = $request->input('gender');
         $client->save();
-        return response()->json($client);
+        return response()->json('Client data updated');
     }
 
     /**
