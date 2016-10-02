@@ -37,6 +37,7 @@ $app->group(['prefix'=>'api/v1','namespace'=>'App\Http\Controllers'],function() 
     $app->put('car/{id}','CarController@update');
     $app->delete('car/{id}','CarController@delete');
     $app->get('car/rented','CarController@rented');
+    $app->get('car/free','CarController@free');
 
     /**
      * CRUD rental
