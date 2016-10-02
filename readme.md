@@ -159,3 +159,9 @@ Parameter   : ['month:"22-12-2016"']
 Validation  :
 * date format must be `DD-MM-YYYY`
 ```
+
+# Unit Test
+```
+all test    : phpunit
+specified   : phpunit tests/{filename}
+```
