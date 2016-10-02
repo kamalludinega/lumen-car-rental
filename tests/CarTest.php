@@ -43,6 +43,7 @@ class CarTest extends TestCase
     }
 
     /**
+     * histories car test
      * @depends testCreate
      * @param $id
      */
@@ -52,6 +53,7 @@ class CarTest extends TestCase
     }
 
     /**
+     * rented car test
      * @depends testCreate
      */
     public function testRented(){
@@ -60,6 +62,7 @@ class CarTest extends TestCase
     }
 
     /**
+     * free car test
      * @depends testCreate
      */
     public function testFree(){
