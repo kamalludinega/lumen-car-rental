@@ -46,13 +46,13 @@ class ClientController extends Controller
     public function update($id,Request $request){
         $client=Client::find($id);
         if($client==null){
-            return response()->json('Client not found');
+            return response()->json(['error'=>'Client not found']);
         }
         $this->validation($request);
         $client->name = $request->input('name');
         $client->gender = $request->input('gender');
         $client->save();
-        return response()->json('Client data updated');
+        return response()->json(['success'=>'Client data updated']);
     }
 
     /**
@@ -63,10 +63,10 @@ class ClientController extends Controller
     public function delete($id){
         $client=Client::find($id);
         if($client==null){
-            return response()->json("Client not found");
+            return response()->json(['error'=>"Client not found"]);
         }
         $client->delete();
-        return response()->json("Client deleted");
+        return response()->json(['success'=>"Client deleted"]);
     }
 
     /**
@@ -91,6 +91,9 @@ class ClientController extends Controller
             $query->join('car','car.id','=','rental.car-id')
                 ->select('client-id','brand','type','plate','date-from','date-to');
         }])->find($id);
+        if($histories==null){
+            $histories=['error'=>'Client data not found'];
+        }
         return response()->json($histories);
     }
 }
