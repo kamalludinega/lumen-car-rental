@@ -144,4 +144,26 @@ class CarController extends Controller
 
         return response()->json(['date'=>$request->input('date'),'rented_cars'=>$rented]);
     }
+
+    /**
+     * get free car at specific time
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function free(Request $request){
+        //valdate month
+        $this->validate($request,[
+            'date'=>'required|date_format:d-m-Y',
+        ]);
+        //change date format
+        $dbdate=Carbon::createFromFormat('d-m-Y',$request->input('date'))->format('Y-m-d');
+
+        //get free car
+        $free=DB::table('car')
+            ->leftjoin('rental','rental.car-id','=','car.id')
+            ->whereRaw('car.id NOT IN (SELECT `car-id` FROM rental WHERE "'.$dbdate.'" BETWEEN `date-from` AND `date-to`) OR rental.id IS NULL')
+            ->select('brand','type','plate')->distinct()->get();
+
+        return response()->json(['date'=>$request->input('date'),'free_cars'=>$free]);
+    }
 }
