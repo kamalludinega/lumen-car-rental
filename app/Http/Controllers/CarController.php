@@ -93,4 +93,21 @@ class CarController extends Controller
             'plate' => 'required|unique:car,plate'.$id,
         ]);
     }
+
+    public function histories($id,Request $request){
+        $this->validate($request,[
+            'month'=>'required|date_format:m-Y',
+        ]);
+        $histories=Car::with(['histories'=>function($query) use($request){
+            $monthyear=explode('-',$request->input('month'));
+            $query->join('client','client.id','=','rental.client-id')
+                ->whereRaw('(MONTH(`date-from`) = "'.$monthyear[0].'" AND YEAR(`date-from`) = "'.$monthyear[1].'") OR (MONTH(`date-to`) = "'.$monthyear[0].'" AND YEAR(`date-to`) = "'.$monthyear[1].'")')
+                ->select('car-id','client.name AS rent-by','date-from','date-to');
+        }])->find($id);
+
+        if($histories==null){
+            $histories=['error'=>'Car data not found'];
+        }
+        return response()->json($histories);
+    }
 }
