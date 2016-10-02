@@ -94,10 +94,19 @@ class CarController extends Controller
         ]);
     }
 
+    /**
+     * car rental history
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function histories($id,Request $request){
+        //valdate month
         $this->validate($request,[
             'month'=>'required|date_format:m-Y',
         ]);
+
+        //get rental history
         $histories=Car::with(['histories'=>function($query) use($request){
             $monthyear=explode('-',$request->input('month'));
             $query->join('client','client.id','=','rental.client-id')
