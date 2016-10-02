@@ -112,7 +112,7 @@ class CarController extends Controller
         $histories=Car::with(['histories'=>function($query) use($request){
             $monthyear=explode('-',$request->input('month'));
             $query->join('client','client.id','=','rental.client-id')
-                ->whereRaw('(MONTH(`date-from`) = "'.$monthyear[0].'" AND YEAR(`date-from`) = "'.$monthyear[1].'") OR (MONTH(`date-to`) = "'.$monthyear[0].'" AND YEAR(`date-to`) = "'.$monthyear[1].'")')
+                ->whereRaw('(EXTRACT(MONTH FROM "date-from") = \''.$monthyear[0].'\' AND EXTRACT(YEAR FROM "date-from") = \''.$monthyear[1].'\') OR (EXTRACT(MONTH FROM "date-to") = \''.$monthyear[0].'\' AND EXTRACT(YEAR FROM "date-to") = \''.$monthyear[1].'\')')
                 ->select('car-id','client.name AS rent-by','date-from','date-to');
         }])->find($id);
 
@@ -137,11 +137,10 @@ class CarController extends Controller
         $dbdate=Carbon::createFromFormat('d-m-Y',$request->input('date'))->format('Y-m-d');
 
         //get rented car
-        $rented=DB::table('car')
-            ->join('rental','rental.car-id','=','car.id')
-            ->whereRaw('"'.$dbdate.'" BETWEEN `date-from` AND `date-to`')
-            ->select('brand','type','plate')->distinct()->get();
-
+        $rented=DB::table("car")
+            ->join("rental","rental.car-id","=","car.id")
+            ->whereRaw("'".$dbdate."' BETWEEN \"date-from\" AND \"date-to\"")
+            ->select("brand","type","plate")->distinct()->get();
         return response()->json(['date'=>$request->input('date'),'rented_cars'=>$rented]);
     }
 
@@ -161,7 +160,7 @@ class CarController extends Controller
         //get free car
         $free=DB::table('car')
             ->leftjoin('rental','rental.car-id','=','car.id')
-            ->whereRaw('car.id NOT IN (SELECT `car-id` FROM rental WHERE "'.$dbdate.'" BETWEEN `date-from` AND `date-to`) OR rental.id IS NULL')
+            ->whereRaw('car.id NOT IN (SELECT "car-id" FROM rental WHERE \''.$dbdate.'\' BETWEEN "date-from" AND "date-to") OR rental.id IS NULL')
             ->select('brand','type','plate')->distinct()->get();
 
         return response()->json(['date'=>$request->input('date'),'free_cars'=>$free]);
