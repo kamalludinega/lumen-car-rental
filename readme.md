@@ -21,7 +21,8 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 
 # Lumen Car Rental Documentation
-
+Lumen Car Rental is example API application of car rental which built by Lumen (micro-framework of laravel)
+click for demo https://lumen-car-rental.herokuapp.com/
 ### Get Client / Car / Rental
 API to get client / car / rental data
 ```

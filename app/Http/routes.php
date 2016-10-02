@@ -12,7 +12,7 @@
 */
 
 $app->get('/', function () use ($app) {
-    return $app->version();
+    return 'Lumen Car Rental<br>'.$app->version();
 });
 
 /**
