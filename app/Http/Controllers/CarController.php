@@ -9,7 +9,9 @@
 namespace App\Http\Controllers;
 
 use App\Car;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CarController extends Controller
 {
@@ -118,5 +120,28 @@ class CarController extends Controller
             $histories=['error'=>'Car data not found'];
         }
         return response()->json($histories);
+    }
+
+    /**
+     * get rented car in specific date
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function rented(Request $request){
+        //valdate month
+        $this->validate($request,[
+            'date'=>'required|date_format:d-m-Y',
+        ]);
+
+        //change date format
+        $dbdate=Carbon::createFromFormat('d-m-Y',$request->input('date'))->format('Y-m-d');
+
+        //get rented car
+        $rented=DB::table('car')
+            ->join('rental','rental.car-id','=','car.id')
+            ->whereRaw('"'.$dbdate.'" BETWEEN `date-from` AND `date-to`')
+            ->select('brand','type','plate')->get();
+
+        return response()->json(['date'=>$request->input('date'),'rented_cars'=>$rented]);
     }
 }
