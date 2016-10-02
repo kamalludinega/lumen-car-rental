@@ -140,7 +140,7 @@ class CarController extends Controller
         $rented=DB::table('car')
             ->join('rental','rental.car-id','=','car.id')
             ->whereRaw('"'.$dbdate.'" BETWEEN `date-from` AND `date-to`')
-            ->select('brand','type','plate')->get();
+            ->select('brand','type','plate')->distinct()->get();
 
         return response()->json(['date'=>$request->input('date'),'rented_cars'=>$rented]);
     }
