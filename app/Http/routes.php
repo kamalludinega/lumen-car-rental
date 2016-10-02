@@ -28,6 +28,13 @@ $app->group(['prefix'=>'api/v1','namespace'=>'App\Http\Controllers'],function() 
     $app->put('client/{id}','ClientController@update');
     $app->delete('client/{id}','ClientController@delete');
 
+
+    /**
+     * car rented and free
+     */
+    $app->get('car/rented','CarController@rented');
+    $app->get('car/free','CarController@free');
+
     /**
      * CRUD car
      */
@@ -36,8 +43,6 @@ $app->group(['prefix'=>'api/v1','namespace'=>'App\Http\Controllers'],function() 
     $app->post('car','CarController@create');
     $app->put('car/{id}','CarController@update');
     $app->delete('car/{id}','CarController@delete');
-    $app->get('car/rented','CarController@rented');
-    $app->get('car/free','CarController@free');
 
     /**
      * CRUD rental
