@@ -40,7 +40,7 @@ class CarController extends Controller
                 'plate'=>$request->get('plate'),
             ]
         );
-        return response()->json($car);
+        return response()->json(['id'=>$car->id]);
     }
 
     /**
@@ -61,8 +61,7 @@ class CarController extends Controller
         $car->color = $request->input('color');
         $car->plate = $request->input('plate');
         $car->save();
-        unset($car->id);
-        return response()->json($car);
+        return response()->json('Car data updated');
     }
 
     /**
