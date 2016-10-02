@@ -21,4 +21,7 @@ class Car extends Model
     //field
     protected $fillable = ['brand','type','year','color','plate'];
 
+    public function histories(){
+        return $this->hasMany('App\Rental','car-id');
+    }
 }
